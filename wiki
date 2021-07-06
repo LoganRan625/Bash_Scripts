@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# wiki		06/06/21
+#
+# searches wiki for page named "<arg1>"
+#
+# SYNTAX
+#		wiki "<arg1>" <arg2>
+#
+# ARG1(string)
+#       quote multiple word arguments
+#       capitalize first letter of each word
+#
+# ARG2
+#       group, star, geo (geography), com (command)
+
+# SEARCH WIKI help page
+
+[ "$1" == "-h" ] && cat ~/Documents/Programming/Bash/AUTOscripts/wiki | grep "# " | grep -v "Documents" | grep -v "SEARCH" | grep -v '==' | sed '/Contents:/q;p' && exit
+
+Mainf(){
+  word="$1"
+  curl -s https://en.wikipedia.org/wiki/$word | html2text | sed '/ Contents /q;p' | sed '$!N; /^\(.*\)\n\1$/!P; D' | less
+  exit
+}
+
+sM(){
+  printf "\n\033[36m"
+  for i in $2
+  do
+    str1=$(curl -s https://en.wikipedia.org/wiki/"$1" | html2text | sed '/ Contents /q;p' | sed '$!N; /^\(.*\)\n\1$/!P; D' | grep "$i" )
+    per=$(echo $str1 | grep "%") && [[ "$per" == "%" ]] && per="\%"
+    printf "\n$str1 $per"
+  done
+  printf "\n\033[0m"
+  exit
+}
+
+
+# SEARCH WIKI keyword VARs lists, objects
+group="Origin Genres Website Labels members"
+star="radius circumference Color Mass Volume Named Eccentricity Orbital Synodic" #Hydrogen Helium Oxygen Carbon Iron Neon Nitrogen Silicon Magnesium Sulphur"
+geo="Motto Religion National Capital Driving ISO electricity "
+com="Original Developer Operating Platform Type License"
+
+# object names
+list_ob=$(echo "group star geo com game" | sort)
+
+# SEARCH WIKI if, objects
+word=$(echo $1 | tr " " "_")
+[ ! "$2" ] && Mainf "$word"
+
+# FOR LOOP to clean up ?
+#for i in $list_ob
+#do
+#  if [ "$2" == "$i" ]; then
+#  chop="$i" && sM "$word" "$chop"
+#  fi
+#done
+
+[ "$2" == "group" ] || [ "$2" == "band" ] && chop="$group" && sM "$word" "$chop"
+[ "$2" == "star" ] && chop="$star" && sM "$word" "$chop"
+[ "$2" == "geo" ] && chop="$geo" && sM "$word" "$chop"
+[ "$2" == "com" ] && chop="$com" && sM "$word" "$chop"
+[ "$2" == "game" ] && chop="$game" && sM "$word" "$chop"
