@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#DIRCH		06/05/21
+#
+# dirch; short for DIRectory CHmod
+# purpose; change permissions of entire directory
+
+# arguments (options)
+if [ "$1" == "-r" ] || [ "$1" == "--root" ]; then
+  chv="777"
+elif [ "$1" == "-l" ] || [ "$1" == "--low" ]; then
+  chv="555"
+elif [ "$1" == "-n" ] || [ "$1" == "--no" ]; then
+  chv="000"
+else
+  chv="+x"
+fi
+
+# help screen || change file persmissions
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+  printf "\033[36m   DIRCH\033[0m\n\tchanges permisions of entire directory\n\tDIRCH; short for DIR CHMOD"
+  printf "\n\n\t\033[36mSYNTAX\033[0m\n\t\tdirch <arg1>\n"
+  printf "\n\t\033[36mARGS\033[0m\n\t-h --help\n\t  displays this help page\n"
+  printf "\t-r --root\n\t  changes permissions to root 777\n"
+  printf "\t-l --low\n\t%33s\n" "555"
+  printf "\t-n --no\n\t%33s\n" "000"
+  printf "\t\033[36mNO ARG\033[0m\n\t%33s\n" "+x"
+else
+  alias ls='ls'
+  lsl=$(ls -a -p | grep -v /)
+  for i in $lsl
+  do
+  printf "\033[36mFile\t%10s\t perm change $chv\n\033[0m" $i
+  chmod $chv $i
+  done
+fi
+
