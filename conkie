@@ -45,7 +45,7 @@ function start_conkie(){
   while :
   do
 
-    ###### COMMAND VARIABLES
+    ###### SUBSHELL VARIABLES
     # time
     unformatted_time=$(date | awk '{print $5}')
     current_time=${unformatted_time%:*}
@@ -73,8 +73,8 @@ function start_conkie(){
     printf "${color1}_______________${none}\n"
     printf "${color2}               \n"
     printf "${color1}%-5s ${color3} %8s\n" "$time_tag" "$current_time"
-	  printf "${color1}%-5s ${color3} %8s\n" "$mem_tag" "$mem_perc"
-	  printf "${color1}%-5s ${color3} %8s\n" "$cpu_tag" "$CPU_MHz"
+    printf "${color1}%-5s ${color3} %8s\n" "$mem_tag" "$mem_perc"
+    printf "${color1}%-5s ${color3} %8s\n" "$cpu_tag" "$CPU_MHz"
     printf "${color1}%-5s ${color3} %8s\n" "Arch:" "$CPU_ARC"
     printf "${color1}%-15s\n" "$unformatted_date"
     printf "${color1}_______________${none}\n"
