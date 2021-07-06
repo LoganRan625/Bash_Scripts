@@ -1,0 +1,191 @@
+#!/bin/bash
+
+  #####################################################
+  #   FILE: format   Type: bash   Date: 05/04/21      #
+  #                                                   #
+  #  Comments divide the file into 3 SECTIONS         #
+  #                                                   #
+  #    SECTION--1: before if statemetn & mainloop     #
+  #      Functions                                    #
+  #        -plaintext()                               #
+  #        -send_to_list()                            #
+  #        -clear_all_files()                         #
+  #        -percentage_of()                           #
+  #        -difference_of()                           #
+  #        -Main_Statement()                          #
+  #                                                   #
+  #    SECTION--2: if statement & mainloop            #
+  #      -Help pages                                  #
+  #      -Empty files if                              #
+  #      Formating PRINT                              #
+  #        -setup ls                                  #
+  #        -print top columb and name, type, num      #
+  #        -declaring variables                       #
+  #        MAIN_LOOP formated print statement <arg1>  #
+  #          -vars                                    #
+  #          -if "file_header" or "file_extension"    #
+  #          -prints only files of <type>             #
+  #                                                   #
+  #    SECTION--3: after ( mainloop )                 #
+  #      print number of files per file <type>        #
+  #      declare $part based on <arg1>                #
+  #      if <arg> visible stats || invisible stats    #
+  #      print total, percentage, difference, columbs #
+  #                                                   #
+  #####################################################
+
+###### SECTION--1: before if statement & mainloop
+
+ # STORING argument 1 (arg1 changes somewhere in the code not sure why)
+a1="$1" # <arg1>
+a2="$2" # <arg2>
+a3="$3" # <arg3>
+
+ ### Functions
+
+function plaintext(){ # pera: <type>
+  loc=$1
+  printf "\033[0m\n" ; cat /tmp/"$loc"_files.txt ; printf "\033[32m"
+}
+
+ # list: NAME and NUMBER to file
+function send_to_list(){ #per: $namef, $type, $iter
+  #must be called at end of SECTION-2
+  PWD=$(pwd)
+  printf " $3 $PWD/$1\n" >> /tmp/$2_files.txt
+}
+
+ # Clear: empty files
+function clear_all_files(){ #per: none
+  names_type="Bash Python HTML Assembly Text Php Config unknown"
+  itf="_files.txt"
+  for i in $names_type ; do
+    if [ -f /tmp/$i$itf ]; then
+      > /tmp/$i$itf
+    fi
+done
+}
+
+ # math
+function percentage_of(){ #per: $part, $total
+  part=$1 && whole=$2
+  percent=$(( part * 100 / whole ))
+  echo $percent
+}
+
+function difference_of(){ #per: $part, $total
+  part=$1 && whole=$2
+  diff=$(( whole - part ))
+  echo $diff
+}
+
+ # main
+function Main_Statement(){ #per: $namef, $type, $iter
+  namef=$1 && chip=$2 && iter=$3
+  printf "\n\033[32m | \033[33m%30s\033[32m | \033[33m%10s\033[32m | \033[33m%5s\033[32m |" "$namef" "$chip" "$iter"
+}
+
+###### SECTION--2: if statement (main loop)
+
+
+  # IF - HELP PAGE or Start FORMATING
+if [ "$a1" == "-h" ] || [ "$a1" == "--help" ]; then
+  printf "\033[33m\n \033[32mFORMAT\033[33m Help Page\n\n\tlists files, with file type\n\n \033[32mSYNTAX\033[33m\n\tformat <arg1> <arg2>\n\n\t\033[32mARGS\033[33m\n\t<arg1>\n\t  -h   help screen\n\t  -a   list assembly files\n\t  -b   list bash files\n\t  -p   list python files\n\t  -t   list text files\n\t  -c   list configure files\n\n\t<arg2>\n\t  --add-file\n\t       puts contents of <arg1>\n\t       into /tmp/<type>_file.txt\n\t  --plain\n\t        shows full file location in plain text\n\n"
+else
+
+  # emptys files before filing them (--add-file)
+  if [ "$a2" == "--add-file" ]; then
+    clear_all_files
+  fi
+
+  #### START FORMATTING
+
+  # setup LS
+  alias ls='ls'
+  list=$(ls -a -p | grep -v /) && set -- $list
+
+  # print Top Columb and NAME, TYPE, NUM
+  printf "\n%*s" $COLUMNS | tr " " "="
+  printf "\n\033[32m%*s" $COLUMNS | tr " " "-"    #shows nothing
+  printf "\n | \033[36m%30s\033[0m\033[32m | \033[36m%10s\033[0m\033[32m | \033[36m%5s\033[0m\033[32m | " "NAME:" "TYPE" "NUM"
+
+  # vars - counting file types
+  fsh=0 ; fpy=0 ; ftxt=0 ; fasm=0 ; fhtm=0
+  fphp=0 ; fcon=0 ; unkown=0
+
+  # vars - count iterations
+  iter=0
+
+  #### MAIN_LOOP ( formated print statement based on <arg1> )
+  for namef in $list ; do
+    #var
+    (( iter+=1 ))
+
+    # declare vars to Determine file types
+    top=$(sed 1q $namef | grep "#!/" | awk '{print $1}')
+    check=$(echo $namef | grep "." | cut -f2 -d ".")
+
+    # IF "File header" or "File extention" declaring TYPE VARIABLE
+    if [ "$top" == "#!/bin/bash" ] || [ "$top" == "#!/usr/bin/bash" ] ; then
+      type='Bash' && (( fsh+=1 ))
+    elif [ "$top" == "#!/bin/python3" ] || [ "$top" == "#!/usr/bin/python3" ] ; then
+      type='Python' && (( fpy+=1 ))
+    elif [ "$check" == "asm" ]; then
+      type='Assembly' && (( fasm+=1 ))
+    elif [ "$check" == "txt" ]; then
+      type='Text' && (( ftxt+=1 ))
+    elif [ "$check" == "html" ]; then
+      type='HTML' && (( fhtm+=1 ))
+    elif [ "$check" == "php" ]; then
+      type='Php' && (( fphp+=1 ))
+    elif [ "$check" == "conf" ]; then
+      type='Config' && (( fcon+=1 ))
+    else
+      type='unknown' && (( fo+=1 ))
+    fi
+
+    # prints only files of <type>
+
+    # FUNCTIONS: Main_Statement and/or send_to_list
+    [ "$a1" == "-b" ] && [ "$type" == "Bash" ] && [ "$a2" != "--plain" ] && Main_Statement $namef $type $iter && [ "$a2" == "--add-file" ] && send_to_list $namef $type $iter
+    [ "$a1" == "-p" ] && [ "$type" == "Python" ] && [ "$a2" != "--plain" ] && Main_Statement $namef $type $iter && [ "$a2" == "--add-file" ] && send_to_list $namef $type $iter
+    [ "$a1" == "-a" ] && [ "$type" == "Assembly" ] && [ "$a2" != "--plain" ] && Main_Statement $namef $type $iter && [ "$a2" == "--add-file" ] && send_to_list $namef $type $iter
+    [ "$a1" == "-t" ] && [ "$type" == "Text" ] && [ "$a2" != "--plain" ] && Main_Statement $namef $type $iter && [ "$a2" == "--add-file" ] && send_to_list $namef $type $iter
+    [ "$a1" == "-c" ] && [ "$type" == "Config" ] && [ "$a2" != "--plain" ] && Main_Statement $namef $type $iter && [ "$a2" == "--add-file" ] && send_to_list $namef $type $iter
+    [ "$a1" == "" ] && Main_Statement $namef $type $iter
+
+  done
+  # END of ( mainloop )
+
+  # FUNCTIIONS: plaintext and/or plaintext_num
+  [ "$a1" == "-b" ] && [ "$type" == "Bash" ] && [ "$a2" == "--plain" ] && plaintext $type
+  [ "$a1" == "-p" ] && [ "$type" == "Python" ] && [ "$a2" == "--plain" ] && plaintext $type
+  [ "$a1" == "-a" ] && [ "$type" == "Assembly" ] && [ "$a2" == "--plain" ] && plaintext $type
+  [ "$a1" == "-t" ] && [ "$type" == "Text" ] && [ "$a2" == "--plain" ] && plaintext $type
+  [ "$a1" == "-c" ] && [ "$type" == "Config" ] && [ "$a2" == "--plain" ] && plaintext $type
+
+###### SECTION--3: after ( mainloop )
+
+  # PRINT Files Types .sh .py .txt .asm ...
+  printf "\n | \033[36mFILES:\033[32m    .sh %3d    .py %3d    .txt %3d    .asm %3d \n |           .htm %3d   .php %3d   .conf %3d   .other %3d\n" $fsh $fpy $ftxt $fasm $fhtm $fphp $fcon $fo
+
+  # MATH
+
+  # total number of all files
+  total=$(( fsh + fpy + fasm + ftxt + fhtm + fphp + fcon + fo ))
+
+  # setting 'part' = number of specific file type if [ <arg1> ]
+  [ "$a1" == "-b" ] && part=$fsh
+  [ "$a1" == "-p" ] && part=$fpy
+  [ "$a1" == "-a" ] && part=$fasm
+  [ "$a1" == "-t" ] && part=$ftxt
+  [ "$a1" == "-h" ] && part=$fhtm
+  [ "$a1" == "-c" ] && part=$fcon
+
+  # invisible stats || visible stats ( if [ <arg1> ] )
+  [ "$a1" != "" ] && [ "$a1" != "-h" ] && pl=$(percentage_of $part $total) && ml="PERCENTAGE:" && cl="%" && difr=$(difference_of $part $total) && dl="DIFFERENCE:"
+
+  # total, percentage, diff and bottom columb
+  printf " | \033[36mTOTAL:\033[32m  $total files  \033[36m$ml\033[32m  $pl%1s  \033[36m$dl\033[32m  $difr" $cl
+  printf "\033[0m\n\033[32m%*s\033[0m" $COLUMNS | tr " " "-"
+fi
