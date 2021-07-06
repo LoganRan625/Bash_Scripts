@@ -38,10 +38,10 @@ sM(){
 
 
 # SEARCH WIKI keyword VARs lists, objects
-group="Origin Genres Website Labels members"
-star="radius circumference Color Mass Volume Named Eccentricity Orbital Synodic" #Hydrogen Helium Oxygen Carbon Iron Neon Nitrogen Silicon Magnesium Sulphur"
-geo="Motto Religion National Capital Driving ISO electricity "
-com="Original Developer Operating Platform Type License"
+group=" Origin Genres Website Labels members "
+star=" radius circumference Color Mass Volume Named Eccentricity Orbital Synodic " #Hydrogen Helium Oxygen Carbon Iron Neon Nitrogen Silicon Magnesium Sulphur"
+geo=" Motto Religion National Capital Driving ISO electricity "
+com=" Original Developer Operating Platform Type License "
 
 # object names
 list_ob=$(echo "group star geo com game" | sort)
@@ -49,14 +49,6 @@ list_ob=$(echo "group star geo com game" | sort)
 # SEARCH WIKI if, objects
 word=$(echo $1 | tr " " "_")
 [ ! "$2" ] && Mainf "$word"
-
-# FOR LOOP to clean up ?
-#for i in $list_ob
-#do
-#  if [ "$2" == "$i" ]; then
-#  chop="$i" && sM "$word" "$chop"
-#  fi
-#done
 
 [ "$2" == "group" ] || [ "$2" == "band" ] && chop="$group" && sM "$word" "$chop"
 [ "$2" == "star" ] && chop="$star" && sM "$word" "$chop"
