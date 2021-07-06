@@ -2,8 +2,8 @@
 
 #DIRCH		06/05/21
 #
-# dirch; short for DIRectory CHmod
-# purpose; change permissions of entire directory
+# dirch: short for DIRectory CHmod
+# purpose: change permissions of entire directory
 
 # arguments (options)
 if [ "$1" == "-a" ] || [ "$1" == "--all" ]; then
