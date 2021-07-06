@@ -12,7 +12,7 @@
 #       capitalize first letter of each word
 #
 # ARG2
-#       group, star, geo (geography), com (command)
+#       group, or band, star (planets, or stars), geo (geography), com (command)
 
 # SEARCH WIKI help page
 
