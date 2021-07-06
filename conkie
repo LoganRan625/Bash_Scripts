@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# FILE: conkie
+# DATE: 06/15/21
+# SYNTAX: conkie
+
+# edit this file to change style of conkie
+
+## FUNCTIONS:
+clear
+function start_conkie(){ # <date> <mem> <cpu>
+                         # <color> <host> <uptime>
+                         # <commoncommands>
+  ###### VARIABLES
+  # colors
+  red='\033[31m' ; blue='\033[34m' ; green='\033[32m'
+  grey='\033[30m' ; yellow='\033[33m' ; purple='\033[35m'
+  white='\033[47m' ; cyan='\033[36m' ; none='\033[0m'
+  black='\033[37m'
+  # bold colors
+  bold_red='\033[01;31m' ; bold_blue='\033[01;34m'
+  bold_green='\033[01;32m' ; bold_grey='\033[01;30m'
+  bold_yellow='\033[01;33m' ; bold_purple='\033[01;35m'
+  bold_black='\033[01;37m' ; bold_cyan='\033[01;36m'
+  bold_white='\033[01;47m'
+  #THEMES - uncomment a single theme
+     # cream
+      #color1=$green && color2="\033[07;47m" && color3=$cyan
+     # sky_blue
+      #color1=$cyan && color2=$bold_white
+     # transparent_dark_cyan
+      #color1=$cyan
+     # transparent_dark_theme
+      #color1=$green color2=$green color3=$bold_black
+     # light_theme crome_mountian
+			color1=$bold_white && color2=$bold_white && color3=$grey
+		 # red_white
+		  #color1=$red && color2=$white && color4=$bold_black
+  # item names
+  mem_tag="MEM:" ; cpu_tag="CPU:" ; date_tag="DATE:" ; time_tag="TIME:"
+  # host
+  host=$(hostname)
+
+  ###### START OF LOOP
+  while :
+  do
+
+    ###### COMMAND VARIABLES
+    # time
+    unformatted_time=$(date | awk '{print $5}')
+    current_time=${unformatted_time%:*}
+    # memory
+    mem_total=$(free | grep "Mem:" | awk '{print $2}')
+    mem_used=$(free | grep "Mem:" | awk '{print $3}')
+    mem_perc=$(echo $(( mem_used * 100 / mem_total ))"%")
+    # date
+    unformatted_date=$(date | awk '{print $1" "$2" "$3" "$4}')
+    # uptime
+    uptime=$(uptime | awk '{print $3}' | cut -f1 -d ",")
+    # CPU MHz:
+    CPU_MHz=$(lscpu | grep "CPU MHz:" | awk '{print $3}')
+    # CPU architecture
+    CPU_ARC=$(lscpu | grep "Architecture:" | awk '{print $2}')
+    # stack size
+    stack_size=$(pushd +0 | wc -w)
+
+
+    # formated for screen
+    printf "${color2}%-15s\n" "CONKIE: Term v1"
+    printf "${color1}%-5s ${color3} %8s\n" "HOST:" "$host"
+    printf "${color1}%-5s ${color3} %8s\n" "UP:" "$uptime"
+    printf "${color1}%-5s ${color3} %8s\n" "div" "$stack_size"
+    printf "${color1}_______________${none}\n"
+    printf "${color2}               \n"
+    printf "${color1}%-5s ${color3} %8s\n" "$time_tag" "$current_time"
+	  printf "${color1}%-5s ${color3} %8s\n" "$mem_tag" "$mem_perc"
+	  printf "${color1}%-5s ${color3} %8s\n" "$cpu_tag" "$CPU_MHz"
+    printf "${color1}%-5s ${color3} %8s\n" "Arch:" "$CPU_ARC"
+    printf "${color1}%-15s\n" "$unformatted_date"
+    printf "${color1}_______________${none}\n"
+    printf "${color2}               \n"
+    printf "${color1}%-5s ${color3} %8s\n"
+    printf "${color1}%-5s ${color3} %8s\n"
+    printf "${color1}_______________${none}\n"
+    printf "${color2}               \n"
+    printf "${color1}               \n"
+    printf "${color1}               \n"
+    printf "${color1}               \n"
+    sleep 60
+	  clear
+	done
+}
+
+#############################
+# "$date_tag" "$current_time"start program
+start_conkie
