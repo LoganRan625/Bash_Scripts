@@ -32,9 +32,10 @@ function start_conkie(){
      # transparent_dark_theme
       #color1=$green color2=$green color3=$bold_black
      # light_theme crome_mountian
-			color1=$bold_white && color2=$bold_white && color3=$grey
-		 # red_white
-		  #color1=$red && color2=$white && color4=$bold_black
+	color1=$bold_white && color2=$bold_white && color3=$grey
+     # red_white
+	#color1=$red && color2=$white && color4=$bold_black
+	
   # item names
   mem_tag="MEM:" ; cpu_tag="CPU:" ; date_tag="DATE:" ; time_tag="TIME:"
   # host
@@ -81,10 +82,7 @@ function start_conkie(){
     printf "${color1}%-5s ${color3} %8s\n"
     printf "${color1}%-5s ${color3} %8s\n"
     printf "${color1}_______________${none}\n"
-    printf "${color2}               \n"
-    printf "${color1}               \n"
-    printf "${color1}               \n"
-    printf "${color1}               \n"
+
     sleep 60
 	  clear
 	done
