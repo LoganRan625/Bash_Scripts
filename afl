@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# AFL access_file_logs
+
+check_make_files(){
+  ft="Bash Text Assembly Config Php HTML Python"
+  for i in $ft
+  do
+  	echo $i | xargs -I{} touch /tmp/{}_files.txt
+	done
+}
+
+access_file_logs(){
+
+  # vars
+  file_type=$(correct_file_log) && num="$1"
+  line=$(printf "$file_type\n" | grep " $num " | awk '{print $2}')
+  # <arg1> -h
+  if [ "$1" == "-h" ]; then
+    printf "\033[36m\n\tAFL HELP\033[32m (access file logs)\n\n\t\033[36mSYNTAX:\033[32m\n\t  <arg1>\n\t    -h help_page\n\n\t  <arg2>\n\t    -c cat chosen file_number\n\t    -o open chosen file_number\n\t    -p change permissions to 755\n\n"
+    exit
+  fi
+  # check for arguments
+  if [ -n "$num" ] && [ -n "$2" ]; then
+    # <arg2> -c
+    if [ "$2" == "-c" ]; then
+      cat $line
+    fi
+    # <arg2> -x
+    if [ "$2" == "-o" ]; then
+      nano $line
+    fi
+    # <arg2> -p
+    if [ "$2" == "-p" ]; then
+      echo $line | xargs -I{} chmod 755 {}
+    fi
+  elif [ -z "$2" ] && [ -n "$num" ]; then
+     echo $line
+  else
+    printf "$file_type\n"
+  fi
+}
+
+correct_file_log(){
+  ft="Bash Text Assembly Config Php HTML Python"
+  for i in $ft
+    do
+  echo $i | xargs -I{} cat /tmp/{}_files.txt
+  done
+}
+
+check_make_files
+access_file_logs $1 $2
