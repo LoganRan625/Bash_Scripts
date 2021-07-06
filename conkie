@@ -22,6 +22,7 @@ function start_conkie(){
   bold_yellow='\033[01;33m' ; bold_purple='\033[01;35m'
   bold_black='\033[01;37m' ; bold_cyan='\033[01;36m'
   bold_white='\033[01;47m'
+  
   #THEMES - uncomment a single theme
      # cream
       #color1=$green && color2="\033[07;47m" && color3=$cyan
