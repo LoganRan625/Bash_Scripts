@@ -3,8 +3,7 @@
 useful command line scripts in $PATH
 
 
-# format
-# afl
+# format & afl
 
 **"afl"** accompanies **"format"**, as **"format"** gives visual representation of files and **"afl"** takes the paths saved 
 by **"format"** in plaintext directly from a file, those paths can then be acted on. **"afl"** directly makes changes but 
