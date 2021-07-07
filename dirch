@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#DIRCH		06/05/21
-#
+# NAME: dirch		 DATE: 06/05/21
+# TYPE: Bash 
 # dirch: short for DIRectory CHmod
 # purpose: change permissions of entire directory
 
