@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
  # STORING argument 1 (arg1 changes somewhere in the code not sure why)
 a1="$1" # <arg1>
 a2="$2" # <arg2>
@@ -8,20 +7,20 @@ a3="$3" # <arg3>
 
  ### Functions
 
-function plaintext(){ # pera: <type>
+function plaintext(){ # parameters: <type>
   loc=$1
   printf "\033[0m\n" ; cat /tmp/"$loc"_files.txt ; printf "\033[32m"
 }
 
  # list: NAME and NUMBER to file
-function send_to_list(){ #per: $namef, $type, $iter
+function send_to_list(){ # parameters: $namef, $type, $iter
   #must be called at end of SECTION-2
   PWD=$(pwd)
   printf " $3 $PWD/$1\n" >> /tmp/$2_files.txt
 }
 
  # Clear: empty files
-function clear_all_files(){ #per: none
+function clear_all_files(){ # parameters: none
   names_type="Bash Python HTML Assembly Text Php Config unknown"
   itf="_files.txt"
   for i in $names_type ; do
@@ -32,20 +31,20 @@ done
 }
 
  # math
-function percentage_of(){ #per: $part, $total
+function percentage_of(){ # parameters: $part, $total
   part=$1 && whole=$2
   percent=$(( part * 100 / whole ))
   echo $percent
 }
 
-function difference_of(){ #per: $part, $total
+function difference_of(){ # parameters: $part, $total
   part=$1 && whole=$2
   diff=$(( whole - part ))
   echo $diff
 }
 
  # main
-function Main_Statement(){ #per: $namef, $type, $iter
+function Main_Statement(){ # parameters: $namef, $type, $iter
   namef=$1 && chip=$2 && iter=$3
   printf "\n\033[32m | \033[33m%30s\033[32m | \033[33m%10s\033[32m | \033[33m%5s\033[32m |" "$namef" "$chip" "$iter"
 }
