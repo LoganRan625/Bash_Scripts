@@ -1,10 +1,9 @@
 #!/bin/bash
 
-if [ "$1" == "-h" ] || [ "$1" == "--help"];
-then
+if [ "$1" == "-h" ] || [ "$1" == "--help"]; then
   printf "\033[20m\tSYNTAX:\n\t asmcompiler <filename> <newname>\n"
   printf "\n\tEXAMPLE:\n\t asmcompiler hello.asm hello\033[0m\n"
-  printf "\nNASM X86 ELF64 ASSEMBLER .asm to .o to executable \n\n Registers\n\t   rax, rbx, rdi, rsi, rdx, r10, r11 \n Jump\n\t   jmp, je, jne, jg, jge, jl, jle, jz, jnz\n Commands\n\t Math\n\t   add, sub, mul, div, neg, inc, dec, adc, sbb\n\t General\n\t   and, or, xor, push, pop, mov, not, jmp, cmp, call, ret,\nSections\n\t   .data, .bss, .text,\n"
+  printf "\nNASM X86 ELF64 ASSEMBLER .asm to .o to executable \n\n Registers 64bit\n\t   rax, rbx, rdi, rsi, rdx, r10, r11 \n Jump Command\n\t   jmp, je, jne, jg, jge, jl, jle, jz, jnz\n Commands\n\t Math\n\t   add, sub, mul, div, neg, inc, dec, adc, sbb\n\t Comparison\n\t  and, or, xor, not, \n\t General\n\t  push, pop, mov, jmp, cmp, call, ret,\nSections\n\t   .data, .bss, .text,\n"
 else
   nasm -f elf64 -o new.o $1
   ld new.o -o $2 && rm new.o
