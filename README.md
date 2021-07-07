@@ -6,7 +6,7 @@ useful command line scripts in $PATH
 # format & afl
 
 **"afl"** accompanies **"format"**, as **"format"** gives visual representation of files and **"afl"** takes the paths saved 
-by **"format"** in plaintext directly from a file, those paths can then be acted on. **"afl"** directly makes changes but 
+by **"format"** in plaintext directly from a file, those paths can then be acted on by **"afl"**. **"afl"** directly makes changes but 
 can also be used to pipe paths as input on the command line.
 
 # conkie
