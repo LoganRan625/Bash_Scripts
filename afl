@@ -7,7 +7,7 @@ check_make_files(){
   for i in $ft
   do
   	echo $i | xargs -I{} touch /tmp/{}_files.txt
-	done
+  done
 }
 
 access_file_logs(){
