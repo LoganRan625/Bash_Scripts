@@ -12,7 +12,8 @@ be acted on by **"afl"** similar to rudimentary filemanager for tty. **"afl"** d
 but can also be used to pipe paths as input on the command line.
 
 # conkie
-it is probably what you would assume, a cheap version of conky for tty's that have split screen options.
+it is probably what you would assume, a cheap version of conk. specificaly desighed
+for tty's that have split screen options.
 
 # dirch
 changes permisions of entire directory.
