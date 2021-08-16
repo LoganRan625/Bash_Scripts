@@ -15,8 +15,8 @@ function plaintext(){ # parameters: <type>
  # list: NAME and NUMBER to file
 function send_to_list(){ # parameters: $namef, $type, $iter
   #must be called at end of SECTION-2
-  PWD=$(pwd)
-  printf " $3 $PWD/$1\n" >> /tmp/$2_files.txt
+  
+  printf " $3 $(pwd)/$1\n" >> /tmp/$2_files.txt
 }
 
  # Clear: empty files
