@@ -145,7 +145,7 @@ else
   [ "$a1" == "-c" ] && part=$fcon
 
   # invisible stats || visible stats ( if [ <arg1> ] )
-  [ "$a1" != "" ] && [ "$a1" != "-h" ] && pl=$(percentage_of $part $total) && ml="PERCENTAGE:" && cl="%" && difr=$(difference_of $part $total) && dl="DIFFERENCE:"
+  [ "$a1" != "" ] && pl=$(percentage_of $part $total) && ml="PERCENTAGE:" && cl="%" && difr=$(difference_of $part $total) && dl="DIFFERENCE:"
 
   # total, percentage, diff and bottom columb
   printf " | \033[36mTOTAL:\033[32m  $total files  \033[36m$ml\033[32m  $pl%1s  \033[36m$dl\033[32m  $difr" $cl
