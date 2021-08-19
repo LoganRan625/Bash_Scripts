@@ -22,10 +22,10 @@ function send_to_list(){ # parameters: $namef, $type, $iter
  # Clear: empty files
 function clear_all_files(){ # parameters: none
   names_type="Bash Python HTML Assembly Text Php Config unknown"
-  itf="_files.txt"
+  t="_files.txt"
   for i in $names_type ; do
-    if [ -f /tmp/$i$itf ]; then
-      > /tmp/$i$itf
+    if [ -f /tmp/$i$t ]; then
+      > /tmp/$i$t
     fi
 done
 }
